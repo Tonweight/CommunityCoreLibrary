@@ -7,12 +7,20 @@
 
     <url>https://ludeon.com/forums/index.php?topic=16599.0</url>
 
+<<<<<<< Updated upstream
     <targetVersion>0.15.1273</targetVersion>
+=======
+    <targetVersion>0.15.1284</targetVersion>
+>>>>>>> Stashed changes
 
     <description>v0.15.0
 
 Compatible with RimWorld builds:
+<<<<<<< Updated upstream
 1273
+=======
+1284
+>>>>>>> Stashed changes
 
 Provides a common core set of library functions for modders as well as making required core changes.
 

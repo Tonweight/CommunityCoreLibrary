@@ -12,27 +12,31 @@ namespace CommunityCoreLibrary.Detour
     internal static class _VersionControl
     {
 
-        internal static FieldInfo           _versionStringShort;
-        internal static FieldInfo           _buildDate;
+        //internal static FieldInfo           _versionStringShort;
+        //internal static FieldInfo           _buildDate;
 
         #region Reflected Methods
 
         internal static string              GetVersionStringShort()
         {
-            if( _versionStringShort == null )
-            {
-                _versionStringShort = typeof( VersionControl ).GetField( "versionStringShort", BindingFlags.Static | BindingFlags.NonPublic );
-            }
-            return (string)_versionStringShort.GetValue( null );
+            return VersionControl.CurrentVersionString;
+
+            //if( _versionStringShort == null )
+            //{
+            //    _versionStringShort = typeof( VersionControl ).GetField( "versionStringShort", BindingFlags.Static | BindingFlags.NonPublic );
+            //}
+            //return (string)_versionStringShort.GetValue( null );
         }
 
         internal static DateTime            GetBuildDate()
         {
-            if( _buildDate == null )
-            {
-                _buildDate = typeof( VersionControl ).GetField( "buildDate", BindingFlags.Static | BindingFlags.NonPublic );
-            }
-            return (DateTime)_buildDate.GetValue( null );
+            return VersionControl.CurrentBuildDate;
+
+            //if( _buildDate == null )
+            //{
+            //    _buildDate = typeof( VersionControl ).GetField( "buildDate", BindingFlags.Static | BindingFlags.NonPublic );
+            //}
+            //return (DateTime)_buildDate.GetValue( null );
         }
 
         #endregion

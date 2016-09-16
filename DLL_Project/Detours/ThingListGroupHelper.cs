@@ -121,6 +121,8 @@ namespace CommunityCoreLibrary.Detour
                     return typeof( DropPodIncoming ).IsAssignableFrom( def.thingClass );
                 }
                 return true;
+            case ThingRequestGroup.Drug:
+                return def.IsDrug;
             default:
                 throw new ArgumentException("group");
             }

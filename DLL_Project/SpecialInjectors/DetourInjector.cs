@@ -36,7 +36,7 @@ namespace CommunityCoreLibrary
                 return false;
 
             // Detour RimWorld.FoodUtility.GetFoodDef
-            MethodInfo RimWorld_FoodUtility_GetFoodDef = typeof( FoodUtility ).GetMethod( "GetFoodDef", UniversalBindingFlags );
+            MethodInfo RimWorld_FoodUtility_GetFoodDef = typeof( FoodUtility ).GetMethod( "GetFinalIngestibleDef", UniversalBindingFlags );
             MethodInfo CCL_FoodUtility_GetFoodDef = typeof( Detour._FoodUtility ).GetMethod( "_GetFoodDef", UniversalBindingFlags );
             if( !Detours.TryDetourFromTo( RimWorld_FoodUtility_GetFoodDef, CCL_FoodUtility_GetFoodDef ) )
                 return false;
@@ -85,7 +85,7 @@ namespace CommunityCoreLibrary
                 return false;
 
             // Detour RimWorld.JobDriver_Ingest.PrepareToEatToils_Dispenser
-            MethodInfo RimWorld_JobDriver_Ingest_PrepareToEatToils_Dispenser = typeof( JobDriver_Ingest ).GetMethod( "PrepareToEatToils_Dispenser", UniversalBindingFlags );
+            MethodInfo RimWorld_JobDriver_Ingest_PrepareToEatToils_Dispenser = typeof( JobDriver_Ingest ).GetMethod( "PrepareToIngestToils_Dispenser", UniversalBindingFlags );
             MethodInfo CCL_JobDriver_Ingest_PrepareToEatToils_Dispenser = typeof( Detour._JobDriver_Ingest ).GetMethod( "_PrepareToEatToils_Dispenser", UniversalBindingFlags );
             if( !Detours.TryDetourFromTo( RimWorld_JobDriver_Ingest_PrepareToEatToils_Dispenser, CCL_JobDriver_Ingest_PrepareToEatToils_Dispenser ) )
                 return false;
@@ -109,7 +109,7 @@ namespace CommunityCoreLibrary
                 return false;
 
             // Detour Verse.MentalStateWorker_BingingAlcohol.StateCanOccur
-            MethodInfo Verse_MentalStateWorker_BingingAlcohol_StateCanOccur = typeof( MentalStateWorker_BingingAlcohol ).GetMethod( "StateCanOccur", UniversalBindingFlags );
+            MethodInfo Verse_MentalStateWorker_BingingAlcohol_StateCanOccur = typeof( MentalStateWorker_BingingDrug ).GetMethod( "StateCanOccur", UniversalBindingFlags );
             MethodInfo CCL_MentalStateWorker_BingingAlcohol_StateCanOccur = typeof( Detour._MentalStateWorker_BingingAlcohol ).GetMethod( "_StateCanOccur", UniversalBindingFlags );
             if( !Detours.TryDetourFromTo( Verse_MentalStateWorker_BingingAlcohol_StateCanOccur, CCL_MentalStateWorker_BingingAlcohol_StateCanOccur ) )
                 return false;

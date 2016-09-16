@@ -7,14 +7,22 @@
 
     <url>https://ludeon.com/forums/index.php?topic=14172.0</url>
 
+<<<<<<< Updated upstream
     <targetVersion>0.15.1273</targetVersion>
+=======
+    <targetVersion>0.15.1284</targetVersion>
+>>>>>>> Stashed changes
 
     <description>v0.15.0
 
 Requires Community Core Library v0.15.0
 
 Compatible with RimWorld builds:
+<<<<<<< Updated upstream
 1273
+=======
+1284
+>>>>>>> Stashed changes
 
 Makes optional changes to the mod game objects.
 

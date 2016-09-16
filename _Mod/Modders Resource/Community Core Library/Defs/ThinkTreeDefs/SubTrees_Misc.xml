@@ -45,7 +45,7 @@
                 </li>
 
                 <!-- Binging on alcohol -->
-                <li Class="ThinkNode_ConditionalMentalState">
+                <!--<li Class="ThinkNode_ConditionalMentalState">
                     <state>BingingAlcohol</state>
                     <subNodes>
                         <li Class="ThinkNode_PrioritySorter">
@@ -60,16 +60,16 @@
                                 </li>
 
                                 <!-- CCL Insertion hook for modders -->
-                                <li Class="CommunityCoreLibrary.ThinkNode_PrioritySorter_SubtreesByTag">
+                                <!--<li Class="CommunityCoreLibrary.ThinkNode_PrioritySorter_SubtreesByTag">
                                     <insertTag>BingingAlcohol_PrioritySorter</insertTag>
                                 </li>
 
                             </subNodes>
                         </li>
-                        <li Class="JobGiver_BingeAlcohol"/>
+                        <li Class="JobGiver_BingeDrug" />
                         <li Class="JobGiver_WanderColony" />
                     </subNodes>
-                </li>
+                </li>-->
 
                 <!-- Binging on food -->
                 <li Class="ThinkNode_ConditionalMentalState">

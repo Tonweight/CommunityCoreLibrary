@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using RimWorld;
 using Verse;
 
 namespace CommunityCoreLibrary
@@ -10,9 +8,9 @@ namespace CommunityCoreLibrary
 
     public abstract class DefInjectionQualifier
     {
-        public abstract bool                Test( Def def );
+        public abstract bool Test( Def def );
 
-        public static List<ThingDef>        FilteredThingDefs( Type qualifier, ref DefInjectionQualifier qualifierInt, List<string> targetDefs )
+        public static List<ThingDef> FilteredThingDefs( Type qualifier, ref DefInjectionQualifier qualifierInt, List<string> targetDefs )
         {
             if( !targetDefs.NullOrEmpty() )
             {
@@ -20,7 +18,7 @@ namespace CommunityCoreLibrary
             }
             if( qualifierInt == null )
             {
-                qualifierInt = (DefInjectionQualifier) Activator.CreateInstance( qualifier );
+                qualifierInt = (DefInjectionQualifier)Activator.CreateInstance( qualifier );
                 if( qualifierInt == null )
                 {
                     return null;
@@ -32,4 +30,3 @@ namespace CommunityCoreLibrary
     }
 
 }
-

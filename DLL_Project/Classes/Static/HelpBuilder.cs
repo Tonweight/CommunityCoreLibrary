@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using RimWorld;
 using Verse;
 
@@ -88,9 +85,9 @@ namespace CommunityCoreLibrary
         {
             // Get list of things
             var thingDefs =
-                DefDatabase< ThingDef >.AllDefsListForReading.Where( t => (
-                    ( t.thingClass == typeof( Apparel ) )
-                ) ).ToList();
+                DefDatabase<ThingDef>.AllDefsListForReading.Where( t => (
+                  ( t.thingClass == typeof( Apparel ) )
+              ) ).ToList();
 
             if( thingDefs.NullOrEmpty() )
             {
@@ -111,16 +108,16 @@ namespace CommunityCoreLibrary
         {
             // Get list of things
             var thingDefs =
-                DefDatabase< ThingDef >.AllDefsListForReading.Where( t => (
-                    ( t.thingClass == typeof( ThingWithComps ) )&&
-                    (
-                        ( !t.thingCategories.NullOrEmpty() )&&
-                        // A14 - BodyPartsAndImplants => BodyParts + BodyPartsArtifical? (Artificial has no DefOf entry?
-                        // TODO!
-                        // - Fluffy
-                        ( t.thingCategories.Contains( ThingCategoryDefOf.BodyParts ) )
-                    )
-                ) ).ToList();
+                DefDatabase<ThingDef>.AllDefsListForReading.Where( t => (
+                  ( t.thingClass == typeof( ThingWithComps ) ) &&
+                  (
+                      ( !t.thingCategories.NullOrEmpty() ) &&
+                      // A14 - BodyPartsAndImplants => BodyParts + BodyPartsArtifical? (Artificial has no DefOf entry?
+                      // TODO!
+                      // - Fluffy
+                      ( t.thingCategories.Contains( ThingCategoryDefOf.BodyParts ) )
+                  )
+              ) ).ToList();
 
             if( thingDefs.NullOrEmpty() )
             {
@@ -141,9 +138,8 @@ namespace CommunityCoreLibrary
         {
             // Get list of things
             var thingDefs =
-                DefDatabase< ThingDef >.AllDefsListForReading.Where( t => 
-                    t.IsIngestible() &&
-                    t.ingestible.isPleasureDrug 
+                DefDatabase<ThingDef>.AllDefsListForReading.Where( t =>
+                  t.IsIngestible() && t.IsPleasureDrug
                 ).ToList();
 
             if( thingDefs.NullOrEmpty() )
@@ -165,10 +161,10 @@ namespace CommunityCoreLibrary
         {
             // Get list of things
             var thingDefs =
-                DefDatabase< ThingDef >.AllDefsListForReading.Where( t => (
-                    t.IsNutritionGivingIngestible &&
-                    !t.ingestible.isPleasureDrug
-                ) ).ToList();
+                DefDatabase<ThingDef>.AllDefsListForReading.Where( t => (
+                  t.IsNutritionGivingIngestible &&
+                  !t.IsPleasureDrug
+              ) ).ToList();
 
             if( thingDefs.NullOrEmpty() )
             {
@@ -189,10 +185,10 @@ namespace CommunityCoreLibrary
         {
             // Get list of things
             var thingDefs =
-                DefDatabase< ThingDef >.AllDefsListForReading.Where( t => (
-                    ( t.IsWeapon )&&
-                    ( t.category == ThingCategory.Item )
-                ) ).ToList();
+                DefDatabase<ThingDef>.AllDefsListForReading.Where( t => (
+                  ( t.IsWeapon ) &&
+                  ( t.category == ThingCategory.Item )
+              ) ).ToList();
 
             if( thingDefs.NullOrEmpty() )
             {
@@ -220,10 +216,10 @@ namespace CommunityCoreLibrary
             {
                 // Get list of things
                 var thingDefs =
-                    DefDatabase< ThingDef >.AllDefsListForReading.Where( t => (
-                        ( t.designationCategory == designationCategoryDef.defName )
-                        && ( !t.IsLockedOut() )
-                    ) ).ToList();
+                    DefDatabase<ThingDef>.AllDefsListForReading.Where( t => (
+                      ( t.designationCategory == designationCategoryDef.defName )
+                      && ( !t.IsLockedOut() )
+                  ) ).ToList();
 
                 if( !thingDefs.NullOrEmpty() )
                 {
@@ -243,16 +239,16 @@ namespace CommunityCoreLibrary
         {
             // Get list of things
             var thingDefs =
-                DefDatabase< ThingDef >.AllDefsListForReading.Where( t => (
-                    ( t.Minifiable )&&
-                    (
-                        (
-                            ( t.designationCategory.NullOrEmpty() )||
-                            ( t.designationCategory == "None" )
-                        )
-                    )&&
-                    ( !t.IsLockedOut() )
-                ) ).ToList();
+                DefDatabase<ThingDef>.AllDefsListForReading.Where( t => (
+                  ( t.Minifiable ) &&
+                  (
+                      (
+                          ( t.designationCategory.NullOrEmpty() ) ||
+                          ( t.designationCategory == "None" )
+                      )
+                  ) &&
+                  ( !t.IsLockedOut() )
+              ) ).ToList();
 
             if( thingDefs.NullOrEmpty() )
             {
@@ -277,11 +273,11 @@ namespace CommunityCoreLibrary
         {
             // Get list of terrainDefs without designation category that occurs as a byproduct of mining (rocky),
             // or is listed in biomes (natural terrain). This excludes terrains that are not normally visible (e.g. Underwall).
-            string[] rockySuffixes = new[] { "_Rough", "_Smooth", "_RoughHewn" };
+            string[] rockySuffixes = { "_Rough", "_Smooth", "_RoughHewn" };
 
             List<TerrainDef> terrainDefs =
                 DefDatabase<TerrainDef>.AllDefsListForReading
-                                       .Where( 
+                                       .Where(
                                             // not buildable
                                             t => String.IsNullOrEmpty( t.designationCategory )
                                             && (
@@ -304,7 +300,7 @@ namespace CommunityCoreLibrary
             }
 
             // Get list of buildable floors per designation category
-            foreach ( var categoryDef in DefDatabase<DesignationCategoryDef>.AllDefsListForReading )
+            foreach( var categoryDef in DefDatabase<DesignationCategoryDef>.AllDefsListForReading )
             {
                 terrainDefs =
                     DefDatabase<TerrainDef>.AllDefsListForReading.Where( t => t.designationCategory == categoryDef.defName ).ToList();
@@ -350,7 +346,7 @@ namespace CommunityCoreLibrary
             ResolveDefList( pawnkinds, category );
 
             // humanoids
-            pawnkinds = DefDatabase<PawnKindDef>.AllDefsListForReading.Where( t => !t.race.race.Animal && !t.race.race.IsMechanoid).ToList();
+            pawnkinds = DefDatabase<PawnKindDef>.AllDefsListForReading.Where( t => !t.race.race.Animal && !t.race.race.IsMechanoid ).ToList();
             category = HelpCategoryForKey( HelpCategoryDefOf.Humanoids, "AutoHelpSubCategoryHumanoids".Translate(),
                                            "AutoHelpCategoryFloraAndFauna".Translate() );
             ResolveDefList( pawnkinds, category );
@@ -373,15 +369,15 @@ namespace CommunityCoreLibrary
         {
             // Get the thing database of things which ever have recipes
             var thingDefs =
-                DefDatabase< ThingDef >.AllDefsListForReading.Where( t => (
-                    ( !t.IsLockedOut() )&&
-                    ( t.EverHasRecipes() )&&
-                    ( t.thingClass != typeof( Corpse ) )&&
-                    ( t.thingClass != typeof( Pawn ) )
-                ) ).ToList();
+                DefDatabase<ThingDef>.AllDefsListForReading.Where( t => (
+                  ( !t.IsLockedOut() ) &&
+                  ( t.EverHasRecipes() ) &&
+                  ( t.thingClass != typeof( Corpse ) ) &&
+                  ( t.thingClass != typeof( Pawn ) )
+              ) ).ToList();
 
             // Get help database
-            var helpDefs = DefDatabase< HelpDef >.AllDefsListForReading;
+            var helpDefs = DefDatabase<HelpDef>.AllDefsListForReading;
 
             // Scan through defs and auto-generate help
             foreach( var thingDef in thingDefs )
@@ -396,7 +392,7 @@ namespace CommunityCoreLibrary
                     {
                         // Find an existing entry
                         var helpDef = helpDefs.Find( h => (
-                            ( h.keyDef == recipeDef )&&
+                            ( h.keyDef == recipeDef ) &&
                             ( h.secondaryKeyDef == thingDef )
                         ) );
 
@@ -425,9 +421,9 @@ namespace CommunityCoreLibrary
         {
             // Get research database
             var researchProjectDefs =
-                DefDatabase< ResearchProjectDef >.AllDefsListForReading.Where( r => (
-                    ( !r.IsLockedOut() )
-                ) ).ToList();
+                DefDatabase<ResearchProjectDef>.AllDefsListForReading.Where( r => (
+                  ( !r.IsLockedOut() )
+              ) ).ToList();
 
             if( researchProjectDefs.NullOrEmpty() )
             {
@@ -446,7 +442,7 @@ namespace CommunityCoreLibrary
             // Get advanced research database
             var advancedResearchDefs =
                 Controller.Data.AdvancedResearchDefs.Where( a => (
-                    ( a.ResearchConsolidator == a )&&
+                    ( a.ResearchConsolidator == a ) &&
                     ( a.HasHelp )
                 ) ).ToList();
 
@@ -493,7 +489,7 @@ namespace CommunityCoreLibrary
         static HelpCategoryDef HelpCategoryForKey( string key, string label, string modname )
         {
             // Get help category
-            var helpCategoryDef = DefDatabase< HelpCategoryDef >.GetNamed( key, false );
+            var helpCategoryDef = DefDatabase<HelpCategoryDef>.GetNamed( key, false );
 
             if( helpCategoryDef == null )
             {
@@ -525,7 +521,7 @@ namespace CommunityCoreLibrary
             {
                 return HelpForAdvancedResearch( def as AdvancedResearchDef, category );
             }
-            if (def is PawnKindDef )
+            if( def is PawnKindDef )
             {
                 return HelpForPawnKind( def as PawnKindDef, category );
             }
@@ -534,7 +530,7 @@ namespace CommunityCoreLibrary
                 CCL_Log.Error( "HelpForDef() cannot be used for recipedefs. Use HelpForRecipeDef() directly.", "Help System" );
                 return null;
             }
-            if ( def is BiomeDef )
+            if( def is BiomeDef )
             {
                 return HelpForBiome( def as BiomeDef, category );
             }
@@ -552,7 +548,7 @@ namespace CommunityCoreLibrary
                 "HelpForBuildable()"
             );
 #endif
-            
+
             // we need the thingdef in several places
             ThingDef thingDef = buildableDef as ThingDef;
 
@@ -569,7 +565,7 @@ namespace CommunityCoreLibrary
 
             #region Base Stats
 
-            if ( !buildableDef.statBases.NullOrEmpty() )
+            if( !buildableDef.statBases.NullOrEmpty() )
             {
                 // Look at base stats
                 HelpDetailSection baseStats = new HelpDetailSection(
@@ -583,7 +579,7 @@ namespace CommunityCoreLibrary
             }
 
             #endregion
-            
+
             #region required research
             // Add list of required research
             var researchDefs = buildableDef.GetResearchRequirements();
@@ -591,11 +587,11 @@ namespace CommunityCoreLibrary
             {
                 HelpDetailSection reqResearch = new HelpDetailSection(
                         "AutoHelpListResearchRequired".Translate(),
-                        researchDefs.ConvertAll(def => (Def)def));
+                        researchDefs.ConvertAll( def => (Def)def ) );
                 linkParts.Add( reqResearch );
             }
             #endregion
-            
+
             #region Cost List
             // specific thingdef costs (terrainDefs are buildable with costlist, but do not have stuff cost (oddly)).
             if( !buildableDef.costList.NullOrEmpty() )
@@ -645,7 +641,7 @@ namespace CommunityCoreLibrary
 
                 #region Recipes (to make thing)
                 List<RecipeDef> recipeDefs = buildableDef.GetRecipeDefs();
-                if ( !recipeDefs.NullOrEmpty() )
+                if( !recipeDefs.NullOrEmpty() )
                 {
                     HelpDetailSection recipes = new HelpDetailSection(
                         "AutoHelpListRecipes".Translate(),
@@ -657,14 +653,14 @@ namespace CommunityCoreLibrary
                                               .ToList()
                                               .ConvertAll( def => def as Def );
 
-                    if ( !tableDefs.NullOrEmpty() )
+                    if( !tableDefs.NullOrEmpty() )
                     {
                         HelpDetailSection tables = new HelpDetailSection(
                         "AutoHelpListRecipesOnThingsUnlocked".Translate(), tableDefs );
                         linkParts.Add( tables );
                     }
 #if DEBUG
-                    else 
+                    else
                     {
                         CCL_Log.TraceMod(
                             buildableDef,
@@ -683,7 +679,7 @@ namespace CommunityCoreLibrary
                     // only show Joy if it's non-zero
                     List<Def> needDefs = new List<Def>();
                     needDefs.Add( NeedDefOf.Food );
-                    if ( Math.Abs( thingDef.ingestible.joy ) > 1e-3 )
+                    if( Math.Abs( thingDef.ingestible.joy ) > 1e-3 )
                     {
                         needDefs.Add( NeedDefOf.Joy );
                     }
@@ -702,7 +698,7 @@ namespace CommunityCoreLibrary
                         statLabel = "AutoHelpListNutritionPlant".Translate();
                     }
 
-                    statParts.Add( 
+                    statParts.Add(
                         new HelpDetailSection( statLabel, needDefs, null, suffixes.ToArray() ) );
                 }
 
@@ -735,18 +731,18 @@ namespace CommunityCoreLibrary
                     {
                         HelpDetailSection capacityMods = new HelpDetailSection(
                             "AutoHelpListCapacityModifiers".Translate(),
-                            hediffDef.stages.Where(s => !s.capMods.NullOrEmpty())
-                                            .SelectMany(s => s.capMods)
-                                            .Select(cm => cm.capacity)
+                            hediffDef.stages.Where( s => !s.capMods.NullOrEmpty() )
+                                            .SelectMany( s => s.capMods )
+                                            .Select( cm => cm.capacity )
                                             .ToList()
-                                            .ConvertAll(def => (Def)def),
+                                            .ConvertAll( def => (Def)def ),
                             null,
                             hediffDef.stages
-                                     .Where(s => !s.capMods.NullOrEmpty())
-                                     .SelectMany(s => s.capMods)
+                                     .Where( s => !s.capMods.NullOrEmpty() )
+                                     .SelectMany( s => s.capMods )
                                      .Select(
-                                        cm => (cm.offset > 0 ? "+" : "") + cm.offset.ToString("P0"))
-                                     .ToArray());
+                                        cm => ( cm.offset > 0 ? "+" : "" ) + cm.offset.ToString( "P0" ) )
+                                     .ToArray() );
 
                         statParts.Add( capacityMods );
                     }
@@ -817,7 +813,7 @@ namespace CommunityCoreLibrary
                 {
                     HelpDetailSection recipes = new HelpDetailSection(
                         "AutoHelpListRecipes".Translate(),
-                        recipeDefs.ConvertAll(def => (Def)def));
+                        recipeDefs.ConvertAll( def => (Def)def ) );
                     linkParts.Add( recipes );
                 }
 
@@ -830,10 +826,10 @@ namespace CommunityCoreLibrary
                 {
                     HelpDetailSection unlockRecipes = new HelpDetailSection(
                         "AutoHelpListRecipesUnlocked".Translate(),
-                        recipeDefs.ConvertAll<Def>(def => (Def)def));
+                        recipeDefs.ConvertAll<Def>( def => (Def)def ) );
                     HelpDetailSection researchBy = new HelpDetailSection(
                         "AutoHelpListResearchBy".Translate(),
-                        researchDefs.ConvertAll<Def>(def => (Def)def));
+                        researchDefs.ConvertAll<Def>( def => (Def)def ) );
                     linkParts.Add( unlockRecipes );
                     linkParts.Add( researchBy );
                 }
@@ -847,10 +843,10 @@ namespace CommunityCoreLibrary
                 {
                     HelpDetailSection unlockRecipes = new HelpDetailSection(
                         "AutoHelpListRecipesLocked".Translate(),
-                        recipeDefs.ConvertAll<Def>(def => (Def)def));
+                        recipeDefs.ConvertAll<Def>( def => (Def)def ) );
                     HelpDetailSection researchBy = new HelpDetailSection(
                         "AutoHelpListResearchBy".Translate(),
-                        researchDefs.ConvertAll<Def>(def => (Def)def));
+                        researchDefs.ConvertAll<Def>( def => (Def)def ) );
                     linkParts.Add( unlockRecipes );
                     linkParts.Add( researchBy );
                 }
@@ -867,7 +863,7 @@ namespace CommunityCoreLibrary
                 {
                     if( compPowerTrader.basePowerConsumption > 0 )
                     {
-                        var basePowerConsumption = (int) compPowerTrader.basePowerConsumption;
+                        var basePowerConsumption = (int)compPowerTrader.basePowerConsumption;
                         powerSectionList.Add( new StringDescTriplet( "AutoHelpRequired".Translate(), null, basePowerConsumption.ToString() ) );
 
                         var compPowerIdle = thingDef.GetCompProperties<CompProperties_LowIdleDraw>();
@@ -880,7 +876,7 @@ namespace CommunityCoreLibrary
                             }
                             else
                             {
-                                idlePower = (int) compPowerIdle.idlePowerFactor;
+                                idlePower = (int)compPowerIdle.idlePowerFactor;
                             }
                             powerSectionList.Add( new StringDescTriplet( "AutoHelpIdlePower".Translate(), null, idlePower.ToString() ) );
                         }
@@ -894,7 +890,7 @@ namespace CommunityCoreLibrary
                         }
                         else
                         {
-                            var basePowerConsumption = (int) -compPowerTrader.basePowerConsumption;
+                            var basePowerConsumption = (int)-compPowerTrader.basePowerConsumption;
                             powerSectionList.Add( new StringDescTriplet( "AutoHelpGenerates".Translate(), null, basePowerConsumption.ToString() ) );
                         }
                     }
@@ -902,8 +898,8 @@ namespace CommunityCoreLibrary
                 var compBattery = thingDef.GetCompProperties<CompProperties_Battery>();
                 if( compBattery != null )
                 {
-                    var stored = (int) compBattery.storedEnergyMax;
-                    var efficiency = (int) ( compBattery.efficiency * 100f );
+                    var stored = (int)compBattery.storedEnergyMax;
+                    var efficiency = (int)( compBattery.efficiency * 100f );
                     powerSectionList.Add( new StringDescTriplet( "AutoHelpStores".Translate(), null, stored.ToString() ) );
                     powerSectionList.Add( new StringDescTriplet( "AutoHelpEfficiency".Translate(), null, efficiency.ToString() + "%" ) );
                 }
@@ -924,24 +920,24 @@ namespace CommunityCoreLibrary
                 // Get list of facilities that effect it
                 // TODO: This was never implemented?
                 var affectedBy = thingDef.GetCompProperties<CompProperties_AffectedByFacilities>();
-                if (
-                    ( affectedBy != null )&&
+                if(
+                    ( affectedBy != null ) &&
                     ( !affectedBy.linkableFacilities.NullOrEmpty() )
                 )
                 {
                     HelpDetailSection facilitiesAffecting = new HelpDetailSection(
                         "AutoHelpListFacilitiesAffecting".Translate(),
-                        affectedBy.linkableFacilities.ConvertAll<Def>(def => (Def)def));
+                        affectedBy.linkableFacilities.ConvertAll<Def>( def => (Def)def ) );
                 }
 
                 // Get list of buildings effected by it
                 if( thingDef.HasComp( typeof( CompFacility ) ) )
                 {
-                    var effectsBuildings = DefDatabase< ThingDef >.AllDefsListForReading
+                    var effectsBuildings = DefDatabase<ThingDef>.AllDefsListForReading
                         .Where( f => (
-                            ( f.HasComp( typeof( CompAffectedByFacilities ) ) )&&
-                            ( f.GetCompProperties<CompProperties_AffectedByFacilities>() != null )&&
-                            ( f.GetCompProperties<CompProperties_AffectedByFacilities>().linkableFacilities != null )&&
+                            ( f.HasComp( typeof( CompAffectedByFacilities ) ) ) &&
+                            ( f.GetCompProperties<CompProperties_AffectedByFacilities>() != null ) &&
+                            ( f.GetCompProperties<CompProperties_AffectedByFacilities>().linkableFacilities != null ) &&
                             ( f.GetCompProperties<CompProperties_AffectedByFacilities>().linkableFacilities.Contains( thingDef ) )
                         ) ).ToList();
                     if( !effectsBuildings.NullOrEmpty() )
@@ -960,11 +956,11 @@ namespace CommunityCoreLibrary
 
                         HelpDetailSection facilityDetailSection = new HelpDetailSection(
                             "AutoHelpFacilityStats".Translate(),
-                            facilityDefs, facilityStrings);
+                            facilityDefs, facilityStrings );
 
                         HelpDetailSection facilitiesAffected = new HelpDetailSection(
                             "AutoHelpListFacilitiesAffected".Translate(),
-                            effectsBuildings.ConvertAll<Def>(def => (Def)def));
+                            effectsBuildings.ConvertAll<Def>( def => (Def)def ) );
 
                         statParts.Add( facilityDetailSection );
                         linkParts.Add( facilitiesAffected );
@@ -1012,7 +1008,7 @@ namespace CommunityCoreLibrary
             #region plant extras
 
             if(
-                ( thingDef != null )&&
+                ( thingDef != null ) &&
                 ( thingDef.plant != null )
             )
             {
@@ -1029,7 +1025,7 @@ namespace CommunityCoreLibrary
             }
 
             #endregion
-            
+
             helpDef.HelpDetailSections.AddRange( statParts );
             helpDef.HelpDetailSections.AddRange( linkParts );
 
@@ -1055,7 +1051,7 @@ namespace CommunityCoreLibrary
 
             #region Base Stats
 
-            helpDef.HelpDetailSections.Add( new HelpDetailSection( null, 
+            helpDef.HelpDetailSections.Add( new HelpDetailSection( null,
                 new[] { recipeDef.WorkAmountTotal( (ThingDef)null ).ToStringWorkAmount() },
                 new[] { "WorkAmount".Translate() + " : " },
                 null ) );
@@ -1083,7 +1079,7 @@ namespace CommunityCoreLibrary
                 // TODO: find the actual thingDefs of ingredients so we can use defs instead of strings.
                 HelpDetailSection ingredients = new HelpDetailSection(
                     "Ingredients".Translate(),
-                    recipeDef.ingredients.Select(ic => recipeDef.IngredientValueGetter.BillRequirementsDescription( ic )).ToArray(), null, null);
+                    recipeDef.ingredients.Select( ic => recipeDef.IngredientValueGetter.BillRequirementsDescription( ic ) ).ToArray(), null, null );
 
                 helpDef.HelpDetailSections.Add( ingredients );
             }
@@ -1097,8 +1093,8 @@ namespace CommunityCoreLibrary
             {
                 HelpDetailSection products = new HelpDetailSection(
                     "AutoHelpListRecipeProducts".Translate(),
-                    recipeDef.products.Select(tc => tc.thingDef).ToList().ConvertAll(def => (Def)def),
-                    recipeDef.products.Select(tc => tc.count.ToString()).ToArray());
+                    recipeDef.products.Select( tc => tc.thingDef ).ToList().ConvertAll( def => (Def)def ),
+                    recipeDef.products.Select( tc => tc.count.ToString() ).ToArray() );
 
                 helpDef.HelpDetailSections.Add( products );
             }
@@ -1113,7 +1109,7 @@ namespace CommunityCoreLibrary
             {
                 HelpDetailSection billgivers = new HelpDetailSection(
                     "AutoHelpListRecipesOnThings".Translate(),
-                    thingDefs.ConvertAll<Def>(def => (Def)def));
+                    thingDefs.ConvertAll<Def>( def => (Def)def ) );
 
                 helpDef.HelpDetailSections.Add( billgivers );
             }
@@ -1124,7 +1120,7 @@ namespace CommunityCoreLibrary
             {
                 HelpDetailSection requiredResearch = new HelpDetailSection(
                     "AutoHelpListResearchRequired".Translate(),
-                    researchDefs);
+                    researchDefs );
 
                 helpDef.HelpDetailSections.Add( requiredResearch );
             }
@@ -1135,7 +1131,7 @@ namespace CommunityCoreLibrary
             {
                 HelpDetailSection recipesOnThingsUnlocked = new HelpDetailSection(
                     "AutoHelpListRecipesOnThingsUnlocked".Translate(),
-                    thingDefs.ConvertAll<Def>(def => (Def)def));
+                    thingDefs.ConvertAll<Def>( def => (Def)def ) );
 
                 helpDef.HelpDetailSections.Add( recipesOnThingsUnlocked );
 
@@ -1143,7 +1139,7 @@ namespace CommunityCoreLibrary
                 {
                     HelpDetailSection researchBy = new HelpDetailSection(
                         "AutoHelpListResearchBy".Translate(),
-                        researchDefs.ConvertAll<Def>(def => (Def)def));
+                        researchDefs.ConvertAll<Def>( def => (Def)def ) );
 
                     helpDef.HelpDetailSections.Add( researchBy );
                 }
@@ -1155,7 +1151,7 @@ namespace CommunityCoreLibrary
             {
                 HelpDetailSection recipesOnThingsLocked = new HelpDetailSection(
                     "AutoHelpListRecipesOnThingsLocked".Translate(),
-                    thingDefs.ConvertAll<Def>(def => (Def)def));
+                    thingDefs.ConvertAll<Def>( def => (Def)def ) );
 
                 helpDef.HelpDetailSections.Add( recipesOnThingsLocked );
 
@@ -1163,7 +1159,7 @@ namespace CommunityCoreLibrary
                 {
                     HelpDetailSection researchBy = new HelpDetailSection(
                         "AutoHelpListResearchBy".Translate(),
-                        researchDefs.ConvertAll<Def>(def => (Def)def));
+                        researchDefs.ConvertAll<Def>( def => (Def)def ) );
 
                     helpDef.HelpDetailSections.Add( researchBy );
                 }
@@ -1191,9 +1187,9 @@ namespace CommunityCoreLibrary
             helpDef.description = researchProjectDef.description;
 
             #region Base Stats
-            HelpDetailSection totalCost = new HelpDetailSection(null, 
-                                                                new [] { researchProjectDef.baseCost.ToString() },
-                                                                new [] { "AutoHelpTotalCost".Translate() },
+            HelpDetailSection totalCost = new HelpDetailSection( null,
+                                                                new[] { researchProjectDef.baseCost.ToString() },
+                                                                new[] { "AutoHelpTotalCost".Translate() },
                                                                 null );
             helpDef.HelpDetailSections.Add( totalCost );
 
@@ -1207,7 +1203,7 @@ namespace CommunityCoreLibrary
             {
                 HelpDetailSection researchRequirements = new HelpDetailSection(
                     "AutoHelpListResearchRequired".Translate(),
-                    researchDefs.ConvertAll<Def>(def => (Def)def));
+                    researchDefs.ConvertAll<Def>( def => (Def)def ) );
 
                 helpDef.HelpDetailSections.Add( researchRequirements );
             }
@@ -1219,7 +1215,7 @@ namespace CommunityCoreLibrary
             {
                 HelpDetailSection reseachUnlocked = new HelpDetailSection(
                     "AutoHelpListResearchLeadsTo".Translate(),
-                    researchDefs.ConvertAll<Def>(def => (Def)def));
+                    researchDefs.ConvertAll<Def>( def => (Def)def ) );
 
                 helpDef.HelpDetailSections.Add( reseachUnlocked );
             }
@@ -1231,14 +1227,14 @@ namespace CommunityCoreLibrary
             buildableDefs.AddRange( researchProjectDef.GetThingsUnlocked().ConvertAll<Def>( def => (Def)def ) );
 
             // terrain
-            buildableDefs.AddRange( researchProjectDef.GetTerrainUnlocked().ConvertAll<Def>( def => (Def)def) );
+            buildableDefs.AddRange( researchProjectDef.GetTerrainUnlocked().ConvertAll<Def>( def => (Def)def ) );
 
             // create help section
-            if ( !buildableDefs.NullOrEmpty() )
+            if( !buildableDefs.NullOrEmpty() )
             {
                 HelpDetailSection thingsUnlocked = new HelpDetailSection(
                     "AutoHelpListThingsUnlocked".Translate(),
-                    buildableDefs);
+                    buildableDefs );
 
                 helpDef.HelpDetailSections.Add( thingsUnlocked );
             }
@@ -1258,13 +1254,13 @@ namespace CommunityCoreLibrary
             {
                 HelpDetailSection recipesUnlocked = new HelpDetailSection(
                     "AutoHelpListRecipesUnlocked".Translate(),
-                    recipeDefs.ConvertAll<Def>(def => (Def)def));
+                    recipeDefs.ConvertAll<Def>( def => (Def)def ) );
 
                 helpDef.HelpDetailSections.Add( recipesUnlocked );
 
                 HelpDetailSection recipesOnThingsUnlocked = new HelpDetailSection(
                     "AutoHelpListRecipesOnThingsUnlocked".Translate(),
-                    thingDefs.ConvertAll<Def>(def => (Def)def));
+                    thingDefs.ConvertAll<Def>( def => (Def)def ) );
 
                 helpDef.HelpDetailSections.Add( recipesOnThingsUnlocked );
             }
@@ -1278,13 +1274,13 @@ namespace CommunityCoreLibrary
             {
                 HelpDetailSection plantsUnlocked = new HelpDetailSection(
                     "AutoHelpListPlantsUnlocked".Translate(),
-                    thingDefs.ConvertAll<Def>( def =>(Def)def ));
+                    thingDefs.ConvertAll<Def>( def => (Def)def ) );
 
                 helpDef.HelpDetailSections.Add( plantsUnlocked );
 
                 HelpDetailSection plantsIn = new HelpDetailSection(
                     "AutoHelpListPlantsIn".Translate(),
-                    sowTags.ToArray(), null, null);
+                    sowTags.ToArray(), null, null );
 
                 helpDef.HelpDetailSections.Add( plantsIn );
             }
@@ -1299,7 +1295,7 @@ namespace CommunityCoreLibrary
             {
                 HelpDetailSection researchLockout = new HelpDetailSection(
                     "AutoHelpListResearchLockout".Translate(),
-                    researchDefs.ConvertAll<Def>( def =>(Def)def ) );
+                    researchDefs.ConvertAll<Def>( def => (Def)def ) );
 
                 helpDef.HelpDetailSections.Add( researchLockout );
             }
@@ -1337,8 +1333,8 @@ namespace CommunityCoreLibrary
 
             HelpDetailSection totalCost = new HelpDetailSection(
                 null,
-                new [] { advancedResearchDef.TotalCost.ToString() },
-                new [] {"AutoHelpTotalCost".Translate()},
+                new[] { advancedResearchDef.TotalCost.ToString() },
+                new[] { "AutoHelpTotalCost".Translate() },
                 null );
 
             helpDef.HelpDetailSections.Add( totalCost );
@@ -1353,7 +1349,7 @@ namespace CommunityCoreLibrary
             {
                 HelpDetailSection researchRequired = new HelpDetailSection(
                     "AutoHelpListResearchRequired".Translate(),
-                    researchDefs.ConvertAll<Def>( def =>(Def)def ) );
+                    researchDefs.ConvertAll<Def>( def => (Def)def ) );
 
                 helpDef.HelpDetailSections.Add( researchRequired );
             }
@@ -1364,7 +1360,7 @@ namespace CommunityCoreLibrary
             {
                 HelpDetailSection thingsUnlocked = new HelpDetailSection(
                     "AutoHelpListThingsUnlocked".Translate(),
-                    thingDefs.ConvertAll<Def>( def =>(Def)def ) );
+                    thingDefs.ConvertAll<Def>( def => (Def)def ) );
 
                 helpDef.HelpDetailSections.Add( thingsUnlocked );
             }
@@ -1378,13 +1374,13 @@ namespace CommunityCoreLibrary
             {
                 HelpDetailSection recipesUnlocked = new HelpDetailSection(
                     "AutoHelpListRecipesUnlocked".Translate(),
-                    recipeDefs.ConvertAll<Def>( def =>(Def)def ) );
+                    recipeDefs.ConvertAll<Def>( def => (Def)def ) );
 
                 helpDef.HelpDetailSections.Add( recipesUnlocked );
 
                 HelpDetailSection recipesOnThingsUnlocked = new HelpDetailSection(
                     "AutoHelpListRecipesOnThings".Translate(),
-                    thingDefs.ConvertAll<Def>(def => (Def)def));
+                    thingDefs.ConvertAll<Def>( def => (Def)def ) );
 
                 helpDef.HelpDetailSections.Add( recipesOnThingsUnlocked );
             }
@@ -1398,7 +1394,7 @@ namespace CommunityCoreLibrary
             {
                 HelpDetailSection plantsUnlocked = new HelpDetailSection(
                     "AutoHelpListPlantsUnlocked".Translate(),
-                    thingDefs.ConvertAll<Def>( def =>(Def)def ) );
+                    thingDefs.ConvertAll<Def>( def => (Def)def ) );
 
                 helpDef.HelpDetailSections.Add( plantsUnlocked );
 
@@ -1419,7 +1415,7 @@ namespace CommunityCoreLibrary
             {
                 HelpDetailSection thingsLocked = new HelpDetailSection(
                     "AutoHelpListThingsLocked".Translate(),
-                    thingDefs.ConvertAll<Def>( def =>(Def)def ) );
+                    thingDefs.ConvertAll<Def>( def => (Def)def ) );
 
                 helpDef.HelpDetailSections.Add( thingsLocked );
             }
@@ -1432,12 +1428,12 @@ namespace CommunityCoreLibrary
             )
             {
                 HelpDetailSection recipesLocked = new HelpDetailSection(
-                    "AutoHelpListRecipesLocked".Translate(), recipeDefs.ConvertAll<Def>( def =>(Def)def ) );
+                    "AutoHelpListRecipesLocked".Translate(), recipeDefs.ConvertAll<Def>( def => (Def)def ) );
 
                 helpDef.HelpDetailSections.Add( recipesLocked );
 
                 HelpDetailSection recipesOnThings = new HelpDetailSection(
-                    "AutoHelpListRecipesOnThings".Translate(), thingDefs.ConvertAll<Def>( def =>(Def)def ) );
+                    "AutoHelpListRecipesOnThings".Translate(), thingDefs.ConvertAll<Def>( def => (Def)def ) );
 
                 helpDef.HelpDetailSections.Add( recipesOnThings );
             }
@@ -1451,7 +1447,7 @@ namespace CommunityCoreLibrary
             {
                 HelpDetailSection plantsLocked = new HelpDetailSection(
                     "AutoHelpListPlantsLocked".Translate(),
-                    thingDefs.ConvertAll<Def>( def =>(Def)def ) );
+                    thingDefs.ConvertAll<Def>( def => (Def)def ) );
 
                 helpDef.HelpDetailSections.Add( plantsLocked );
 
@@ -1517,7 +1513,7 @@ namespace CommunityCoreLibrary
 
             defs = biomeDef.AllTerrainDefs().ConvertAll( def => (Def)def );
             // commonalities unknown
-            if ( !defs.NullOrEmpty() )
+            if( !defs.NullOrEmpty() )
             {
                 helpDef.HelpDetailSections.Add( new HelpDetailSection(
                                                     "AutoHelpListBiomeTerrain".Translate(),
@@ -1601,7 +1597,7 @@ namespace CommunityCoreLibrary
             #endregion
 
             HelpPartsForAnimal( kindDef, ref statParts, ref linkParts );
-            
+
             helpDef.HelpDetailSections.AddRange( statParts );
             helpDef.HelpDetailSections.AddRange( linkParts );
 
@@ -1614,13 +1610,13 @@ namespace CommunityCoreLibrary
 
         static void HelpPartsForTerrain( TerrainDef terrainDef, ref List<HelpDetailSection> statParts, ref List<HelpDetailSection> linkParts )
         {
-            statParts.Add( new HelpDetailSection( null, 
-                                                  new []
+            statParts.Add( new HelpDetailSection( null,
+                                                  new[]
                                                   {
                                                       terrainDef.fertility.ToStringPercent(),
                                                       terrainDef.pathCost.ToString()
                                                   },
-                                                  new []
+                                                  new[]
                                                   {
                                                       "AutoHelpListFertility".Translate() + ":",
                                                       "AutoHelpListPathCost".Translate() + ":"
@@ -1644,14 +1640,14 @@ namespace CommunityCoreLibrary
             var plant = thingDef.plant;
 
             // non-def stat part
-            statParts.Add( new HelpDetailSection( null, 
-                                                  new []
+            statParts.Add( new HelpDetailSection( null,
+                                                  new[]
                                                   {
                                                       plant.growDays.ToString(),
                                                       plant.fertilityMin.ToStringPercent(),
                                                       plant.growMinGlow.ToStringPercent() + " - " + plant.growOptimalGlow.ToStringPercent()
                                                   },
-                                                  new []
+                                                  new[]
                                                   {
                                                       "AutoHelpGrowDays".Translate(),
                                                       "AutoHelpMinFertility".Translate(),
@@ -1721,16 +1717,16 @@ namespace CommunityCoreLibrary
             List<String> suffixes = new List<string>();
 
             #region Health, diet and intelligence
-            
-            statParts.Add( new HelpDetailSection( null, 
-                new []
+
+            statParts.Add( new HelpDetailSection( null,
+                new[]
                 {
                     ( race.baseHealthScale * race.lifeStageAges.Last().def.healthScaleFactor ).ToStringPercent(),
                     race.lifeExpectancy.ToStringApproxAge(),
                     race.foodType.ToHumanString(),
                     race.trainableIntelligence.ToString()
                 },
-                new []
+                new[]
                 {
                     "AutoHelpHealthScale".Translate(),
                     "AutoHelpLifeExpectancy".Translate(),
@@ -1746,7 +1742,7 @@ namespace CommunityCoreLibrary
             if( race.Animal )
             {
                 List<DefStringTriplet> DST = new List<DefStringTriplet>();
-                
+
                 foreach( TrainableDef def in DefDatabase<TrainableDef>.AllDefsListForReading )
                 {
                     // skip if explicitly disallowed
@@ -1790,18 +1786,18 @@ namespace CommunityCoreLibrary
             List<float> ages = race.lifeStageAges.Select( age => age.minAge ).ToList();
             for( int i = 0; i < race.lifeStageAges.Count; i++ )
             {
-                defs.Add( race.lifeStageAges[i].def );
+                defs.Add( race.lifeStageAges[ i ].def );
                 // final lifestage
                 if( i == race.lifeStageAges.Count - 1 )
                 {
-                    suffixes.Add( ages[i].ToStringApproxAge() + " - ~" +
+                    suffixes.Add( ages[ i ].ToStringApproxAge() + " - ~" +
                                   race.lifeExpectancy.ToStringApproxAge() );
                 }
                 else
                 // other lifestages
                 {
-                    suffixes.Add( ages[i].ToStringApproxAge() + " - " +
-                                  ages[i + 1].ToStringApproxAge() );
+                    suffixes.Add( ages[ i ].ToStringApproxAge() + " - " +
+                                  ages[ i + 1 ].ToStringApproxAge() );
                 }
             }
 
@@ -1824,7 +1820,7 @@ namespace CommunityCoreLibrary
             if( kindDef.race.HasComp( typeof( CompEggLayer ) ) )
             {
                 // egglayers
-                var eggComp =  kindDef.race.GetCompProperties<CompProperties_EggLayer>();
+                var eggComp = kindDef.race.GetCompProperties<CompProperties_EggLayer>();
                 string range;
                 if( eggComp.eggCountRange.min == eggComp.eggCountRange.max )
                 {
@@ -1843,18 +1839,18 @@ namespace CommunityCoreLibrary
                 stringDescs.Clear();
             }
             else if(
-                ( race.hasGenders )&&
+                ( race.hasGenders ) &&
                 ( race.lifeStageAges.Any( lsa => lsa.def.reproductive ) )
             )
             {
                 // mammals
                 List<StringDescTriplet> SDT = new List<StringDescTriplet>();
-                SDT.Add( new StringDescTriplet( 
+                SDT.Add( new StringDescTriplet(
                     ( race.gestationPeriodDays * GenDate.TicksPerDay / GenDate.TicksPerYear ).ToStringApproxAge(),
                     "AutoHelpGestationPeriod".Translate() ) );
 
                 if(
-                    ( race.litterSizeCurve != null )&&
+                    ( race.litterSizeCurve != null ) &&
                     ( race.litterSizeCurve.PointsCount >= 3 )
                 )
                 {
@@ -1862,7 +1858,7 @@ namespace CommunityCoreLibrary
                     if( race.litterSizeCurve.PointsCount == 3 )
                     {
                         SDT.Add( new StringDescTriplet(
-                            race.litterSizeCurve[1].x.ToString(),
+                            race.litterSizeCurve[ 1 ].x.ToString(),
                             "AutoHelpLitterSize".Translate() ) );
                     }
 
@@ -1870,10 +1866,10 @@ namespace CommunityCoreLibrary
                     else
                     {
                         SDT.Add( new StringDescTriplet(
-                            race.litterSizeCurve[1].x.ToString() + " - " +
-                            race.litterSizeCurve[race.litterSizeCurve.PointsCount - 2].x.ToString(),
+                            race.litterSizeCurve[ 1 ].x.ToString() + " - " +
+                            race.litterSizeCurve[ race.litterSizeCurve.PointsCount - 2 ].x.ToString(),
                             "AutoHelpLitterSize".Translate() ) );
-                        stringDescs.Add( "AutoHelpLitterSize".Translate(  ) );
+                        stringDescs.Add( "AutoHelpLitterSize".Translate() );
                     }
                 }
                 else
@@ -1893,7 +1889,7 @@ namespace CommunityCoreLibrary
 
             #region Biomes
 
-            var kinds = DefDatabase<PawnKindDef>.AllDefsListForReading.Where( t => t.race ==  kindDef.race );
+            var kinds = DefDatabase<PawnKindDef>.AllDefsListForReading.Where( t => t.race == kindDef.race );
             foreach( PawnKindDef kind in kinds )
             {
                 foreach( BiomeDef biome in DefDatabase<BiomeDef>.AllDefsListForReading )
@@ -1936,7 +1932,7 @@ namespace CommunityCoreLibrary
                     prefixes.ToArray() ) );
             }
             else if(
-                ( race.IsMechanoid )&&
+                ( race.IsMechanoid ) &&
                 ( !kindDef.race.butcherProducts.NullOrEmpty() )
             )
             {
@@ -1955,7 +1951,7 @@ namespace CommunityCoreLibrary
 
             // Need to handle subclasses (such as CompMilkableRenameable)
             var milkComp = kindDef.race.comps.Find( c => (
-                ( c.compClass == typeof( CompMilkable ) )||
+                ( c.compClass == typeof( CompMilkable ) ) ||
                 ( c.compClass.IsSubclassOf( typeof( CompMilkable ) ) )
             ) ) as CompProperties_Milkable;
             if( milkComp != null )
@@ -1980,7 +1976,7 @@ namespace CommunityCoreLibrary
 
             // Need to handle subclasses (such as CompShearableRenameable)
             var shearComp = kindDef.race.comps.Find( c => (
-                ( c.compClass == typeof( CompShearable ) )||
+                ( c.compClass == typeof( CompShearable ) ) ||
                 ( c.compClass.IsSubclassOf( typeof( CompShearable ) ) )
             ) ) as CompProperties_Shearable;
             if( shearComp != null )
@@ -2011,7 +2007,7 @@ namespace CommunityCoreLibrary
             return DefDatabase<HelpDef>.AllDefsListForReading;
         }
 
-#endregion
+        #endregion
 
     }
 

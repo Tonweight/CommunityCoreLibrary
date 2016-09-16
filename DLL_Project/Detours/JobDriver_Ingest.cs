@@ -19,7 +19,7 @@ namespace CommunityCoreLibrary.Detour
 
         internal const TargetIndex FoodInd = TargetIndex.A;
         internal const TargetIndex TableCellInd = TargetIndex.B;
-        internal const TargetIndex AlcoholInd = TargetIndex.C;
+        internal const TargetIndex DrugInd = TargetIndex.C;
 
         #region Detoured Methods
 
@@ -60,7 +60,7 @@ namespace CommunityCoreLibrary.Detour
         internal static IEnumerable<Toil> _PrepareToEatToils_Dispenser( this JobDriver_Ingest obj )
         {
             var foodSource = obj.TargetThing( FoodInd );
-            var alcohol = obj.TargetThing( AlcoholInd );
+            var drug = obj.TargetThing( DrugInd );
 
             yield return Toils_Reserve.Reserve( FoodInd, 1 );
             yield return Toils_Goto.GotoThing( FoodInd, PathEndMode.InteractionCell )
@@ -71,16 +71,16 @@ namespace CommunityCoreLibrary.Detour
             }
             else if( foodSource is Building_AutomatedFactory )
             {
-                if( alcohol == null )
+                if( drug == null )
                 {
                     yield return Toils_FoodSynthesizer.TakeMealFromSynthesizer( FoodInd, obj.pawn );
                 }
                 else
                 {
-                    yield return Toils_FoodSynthesizer.TakeAlcoholFromSynthesizer( AlcoholInd, obj.pawn );
+                    yield return Toils_FoodSynthesizer.TakeAlcoholFromSynthesizer( DrugInd, obj.pawn );
                 }
             }
-            yield return Toils_Ingest.CarryIngestibleToChewSpot( obj.pawn )
+            yield return Toils_Ingest.CarryIngestibleToChewSpot( obj.pawn, DrugInd )
                                      .FailOnDestroyedNullOrForbidden( FoodInd );
             yield return Toils_Ingest.FindAdjacentEatSurface( TableCellInd, FoodInd );
         }

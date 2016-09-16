@@ -100,9 +100,8 @@ namespace CommunityCoreLibrary
         public static bool                  IsAlcohol( this ThingDef thingDef )
         {
             if(
-                ( thingDef.IsIngestible() )&&
-                ( thingDef.ingestible.hediffGivers != null )&&
-                ( thingDef.ingestible.hediffGivers.Exists( hediff => hediff.hediffDef == HediffDefOf.Alcohol ) )
+                ( thingDef.IsIngestible() )&& 
+                ( thingDef.ingestible.foodType == FoodTypeFlags.Liquor )
             )
             {
                 return true;
