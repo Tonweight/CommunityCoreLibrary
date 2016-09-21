@@ -5,7 +5,8 @@ REM should handle it after that.  Make all your local copies at the end.
 REM Set this to your local RimWorld install path and CCL Assemblies directory
 REM Example:
 REM Set InstalledCCLAssemblies="C:\Games\Steam\steamapps\common\RimWorld\Mods\Community Core Library\Assemblies"
-Set InstalledCCLAssemblies="/badkarma/"
+Set InstalledCCL="x:\steam\steamapps\common\RimWorld\Mods\Community Core Library\"
+Set InstalledCCLAssemblies=%InstalledCCL%Assemblies
 
 if NOT EXIST %InstalledCCLAssemblies% (
     echo Missing or invalid copy target:
@@ -16,27 +17,63 @@ if NOT EXIST %InstalledCCLAssemblies% (
 echo Build Config: %1
 echo Build Target: %2
 echo Solution Path: %3
-echo CCL Install Path: %InstalledCCLAssemblies%
+echo CCL Install Path: %InstalledCCL%
+echo CCL Assemblies Path: %InstalledCCLAssemblies%
 
-del "%3DLL_Project\bin\Community Core Library.pdb"
-
-%3DLL_Project\bin\InjectModuleInitializer.exe /m:CommunityCoreLibrary.Controller.MainMonoBehaviour::PreLoad "Community Core Library.dll"
-
-echo Copy to RimWorld
-copy %2 %InstalledCCLAssemblies%
-
-if %1 == Release (
-    echo Copy to User Release
-    copy %2 "%3_Mod\User Release\Community Core Library\Assemblies"
-) else (
-    echo Copy to Modders Resource
-    copy %2 "%3_Mod\Modders Resource\Community Core Library\Assemblies"
+Set DLLProjectBinPath=%3DLL_Project\bin\
+echo %DLLProjectBinPath%
+if NOT EXIST %DLLProjectBinPath% (
+	echo Missing or invalid target:
+	echo %DLLProjectBinPath%
+	EXIT -1
 )
 
-REM Add any other local copies here
-REM See example below
+if NOT EXIST %DLLProjectBinPath%InjectModuleInitializer.exe (
+	echo Missing or invalid file:
+	echo %DLLProjectBinPath%InjectModuleInitializer.exe
+	EXIT -1
+)
 
-rem echo Copy to ModPile
-rem copy %2 "C:\Utils\dev\Projects\ModPile\Source-DLLs"
+if EXIST %DLLProjectBinPath%"Community Core Library.pdb" (
+	echo Delete symbols...
+	del %DLLProjectBinPath%"Community Core Library.pdb"
+	echo Done.
+)
+
+if NOT EXIST %DLLProjectBinPath%"Community Core Library.dll" (
+	echo Missing DLL file:
+	echo %DLLProjectBinPath%"Community Core Library.dll"
+	EXIT -1
+)
+
+echo Run InjectModuleInitializer...
+%DLLProjectBinPath%InjectModuleInitializer.exe /m:CommunityCoreLibrary.Controller.MainMonoBehaviour::PreLoad "Community Core Library.dll"
+echo Done.
+
+Set User=%3"_Mod\User Release\Community Core Library\"
+Set Modder=%3"_Mod\Modders Resource\Community Core Library\"
+
+if %1 == Release (
+	echo User Path:  %User%
+	echo Copy to User Release...
+    copy %2 %User%Assemblies\
+    echo Done.
+
+    echo Copy mods to install...
+    xcopy /E /D /Y %User%* %InstalledCCL%
+    echo Done.
+) else (
+    echo Mod Path:  %Modder%
+    echo Copy to Modders Resource...
+    copy %2 %Modder%Assemblies\
+    echo Done.
+
+    echo Copy mods to install...
+    xcopy /E /D /Y %Modder%* %InstalledCCL%
+    echo Done.
+)
+
+echo Copy to RimWorld...
+copy %2 %InstalledCCLAssemblies%
 
 :Finished
